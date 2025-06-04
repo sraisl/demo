@@ -19,6 +19,10 @@
         <h2 class="text-2xl font-semibold text-green-700 mt-6 mb-2">Build Status (All Branches)</h2>
         <div id="dynamic-branches-table-wrapper"></div>
     </div>
+    <div class="mt-10">
+        <h2 class="text-2xl font-semibold text-purple-700 mb-2">Letzte Commits</h2>
+        <div id="recent-commits-wrapper"></div>
+    </div>
     <script>
     const user = "sraisl";
     const repo = "demo";
@@ -54,6 +58,25 @@
           `;
           tbody.appendChild(tr);
         });
+      });
+    fetch('https://api.github.com/repos/sraisl/demo/commits?per_page=5')
+      .then(res => res.json())
+      .then(commits => {
+        const wrapper = document.getElementById('recent-commits-wrapper');
+        if (!wrapper) return;
+        const list = document.createElement('ul');
+        list.className = 'space-y-2';
+        commits.forEach(commit => {
+          const sha = commit.sha.substring(0, 7);
+          const message = commit.commit.message.split('\n')[0];
+          const author = commit.commit.author.name;
+          const date = new Date(commit.commit.author.date).toLocaleString();
+          const url = commit.html_url;
+          const li = document.createElement('li');
+          li.innerHTML = `<a href="${url}" class="text-blue-700 hover:underline font-mono">${sha}</a> <span class="text-gray-800">${message}</span> <span class="text-gray-500">by ${author} (${date})</span>`;
+          list.appendChild(li);
+        });
+        wrapper.appendChild(list);
       });
     </script>
 </body>
