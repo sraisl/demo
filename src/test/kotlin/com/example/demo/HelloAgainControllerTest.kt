@@ -14,7 +14,7 @@ class HelloAgainControllerTest {
     private lateinit var mockMvc: MockMvc
 
     @Test
-    fun `GET /hello-again returns Hello again, rest of the world`() {
+    fun `GET hello-again returns Hello again, rest of the world`() {
         mockMvc.get("/hello-again")
             .andExpect {
                 status { isOk() }
