@@ -21,4 +21,13 @@ class HelloWorldControllerTest {
                 content { string("Hello, World!") }
             }
     }
+
+    @Test
+    fun `GET root returns something else`() {
+        mockMvc.get("/")
+            .andExpect {
+                status { isOk() }
+                content { string("This will fail") }
+            }
+    }
 }
