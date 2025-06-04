@@ -46,6 +46,7 @@
           const badgeUrl = `https://github.com/${user}/${repo}/actions/workflows/${workflow}/badge.svg?branch=${branchName}`;
           const linkUrl = `https://github.com/${user}/${repo}/actions/workflows/${workflow}?query=branch:${branchName}`;
           const tr = document.createElement('tr');
+          tr.className = "transition-colors duration-150 hover:bg-blue-50";
           tr.innerHTML = `
             <td class='py-2 px-4 border-b font-mono'>${branchName}</td>
             <td class='py-2 px-4 border-b'><a href="${linkUrl}"><img src="${badgeUrl}" alt="Build Status ${branchName}" class="badge"></a></td>
