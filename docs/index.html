@@ -21,6 +21,26 @@
         <a href="https://github.com/sraisl/demo/actions/workflows/ci.yml?query=branch:feature/hello-again-endpoint">
             <img class="badge" src="https://github.com/sraisl/demo/actions/workflows/ci.yml/badge.svg?branch=feature/hello-again-endpoint" alt="Build Status feature/hello-again-endpoint">
         </a>
+        <h2>Build Status (All Branches)</h2>
+        <div id="dynamic-branches"></div>
     </div>
+    <script>
+    const user = "sraisl";
+    const repo = "demo";
+    const workflow = "ci.yml";
+    fetch(`https://api.github.com/repos/${user}/${repo}/branches`)
+      .then(res => res.json())
+      .then(branches => {
+        const container = document.getElementById('dynamic-branches');
+        branches.forEach(branch => {
+          const branchName = branch.name;
+          const badgeUrl = `https://github.com/${user}/${repo}/actions/workflows/${workflow}/badge.svg?branch=${branchName}`;
+          const linkUrl = `https://github.com/${user}/${repo}/actions/workflows/${workflow}?query=branch:${branchName}`;
+          const div = document.createElement('div');
+          div.innerHTML = `<strong>${branchName}</strong>: <a href="${linkUrl}"><img src="${badgeUrl}" alt="Build Status ${branchName}" class="badge"></a>`;
+          container.appendChild(div);
+        });
+      });
+    </script>
 </body>
 </html>
