@@ -1,29 +1,23 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Build Status</title>
+    <title>Spring Boot Demo - Build Status Dashboard</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@3.4.1/dist/tailwind.min.css" rel="stylesheet">
     <style>
         body { font-family: Arial, sans-serif; margin: 2em; background: #f9f9f9; }
-        .status { margin-top: 2em; }
         .badge { vertical-align: middle; }
     </style>
 </head>
 <body>
-    <h1>Demo Spring Boot App</h1>
+    <header class="mb-8">
+        <h1 class="text-4xl font-bold text-blue-700 mb-2">Spring Boot Demo CI/CD Dashboard</h1>
+        <p class="text-lg text-gray-600">Monitor the build status of all branches for this repository in real time.</p>
+    </header>
     <div class="status">
-        <h2>Build Status (main)</h2>
-        <a href="https://github.com/sraisl/demo/actions/workflows/ci.yml">
-            <img class="badge" src="https://github.com/sraisl/demo/actions/workflows/ci.yml/badge.svg?branch=main" alt="Build Status main">
-        </a>
-        <h2>Build Status (feature/hello-again-endpoint)</h2>
-        <a href="https://github.com/sraisl/demo/actions/workflows/ci.yml?query=branch:feature/hello-again-endpoint">
-            <img class="badge" src="https://github.com/sraisl/demo/actions/workflows/ci.yml/badge.svg?branch=feature/hello-again-endpoint" alt="Build Status feature/hello-again-endpoint">
-        </a>
-        <h2>Build Status (All Branches)</h2>
-        <div id="dynamic-branches"></div>
+        <h2 class="text-2xl font-semibold text-green-700 mt-6 mb-2">Build Status (All Branches)</h2>
+        <div id="dynamic-branches-table-wrapper"></div>
     </div>
     <script>
     const user = "sraisl";
@@ -32,14 +26,32 @@
     fetch(`https://api.github.com/repos/${user}/${repo}/branches`)
       .then(res => res.json())
       .then(branches => {
-        const container = document.getElementById('dynamic-branches');
+        const wrapper = document.getElementById('dynamic-branches-table-wrapper');
+        const table = document.createElement('table');
+        table.className = "min-w-full bg-white border border-gray-200 rounded-lg shadow text-left";
+        table.innerHTML = `
+          <thead class='bg-blue-100'>
+            <tr>
+              <th class='py-2 px-4 border-b'>Branch</th>
+              <th class='py-2 px-4 border-b'>Build Status</th>
+              <th class='py-2 px-4 border-b'>Actions</th>
+            </tr>
+          </thead>
+          <tbody id='branches-table-body'></tbody>
+        `;
+        wrapper.appendChild(table);
+        const tbody = table.querySelector('#branches-table-body');
         branches.forEach(branch => {
           const branchName = branch.name;
           const badgeUrl = `https://github.com/${user}/${repo}/actions/workflows/${workflow}/badge.svg?branch=${branchName}`;
           const linkUrl = `https://github.com/${user}/${repo}/actions/workflows/${workflow}?query=branch:${branchName}`;
-          const div = document.createElement('div');
-          div.innerHTML = `<strong>${branchName}</strong>: <a href="${linkUrl}"><img src="${badgeUrl}" alt="Build Status ${branchName}" class="badge"></a>`;
-          container.appendChild(div);
+          const tr = document.createElement('tr');
+          tr.innerHTML = `
+            <td class='py-2 px-4 border-b font-mono'>${branchName}</td>
+            <td class='py-2 px-4 border-b'><a href="${linkUrl}"><img src="${badgeUrl}" alt="Build Status ${branchName}" class="badge"></a></td>
+            <td class='py-2 px-4 border-b'><a href="${linkUrl}" class="text-blue-600 hover:underline">View Workflow</a></td>
+          `;
+          tbody.appendChild(tr);
         });
       });
     </script>
