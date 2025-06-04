@@ -2,11 +2,11 @@ name: CI
 
 on:
   push:
-    branches: [ main, feature/hello-again-endpoint ]
+    branches: [ main, feature/* ]
     paths-ignore:
       - 'docs/index.html'
   pull_request:
-    branches: [ main, feature/hello-again-endpoint ]
+    branches: [ main, feature/* ]
     paths-ignore:
       - 'docs/index.html'
 
