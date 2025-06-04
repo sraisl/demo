@@ -13,10 +13,13 @@
 <body>
     <h1>Demo Spring Boot App</h1>
     <div class="status">
-        <h2>Build Status</h2>
-        <!-- Replace USERNAME/REPO with your actual GitHub repo path -->
+        <h2>Build Status (main)</h2>
         <a href="https://github.com/sraisl/demo/actions/workflows/ci.yml">
-            <img class="badge" src="https://github.com/USERNAME/REPO/actions/workflows/ci.yml/badge.svg" alt="Build Status">
+            <img class="badge" src="https://github.com/sraisl/demo/actions/workflows/ci.yml/badge.svg?branch=main" alt="Build Status main">
+        </a>
+        <h2>Build Status (feature/hello-again-endpoint)</h2>
+        <a href="https://github.com/sraisl/demo/actions/workflows/ci.yml?query=branch:feature/hello-again-endpoint">
+            <img class="badge" src="https://github.com/sraisl/demo/actions/workflows/ci.yml/badge.svg?branch=feature/hello-again-endpoint" alt="Build Status feature/hello-again-endpoint">
         </a>
     </div>
 </body>

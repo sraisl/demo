@@ -2,9 +2,9 @@ name: CI
 
 on:
   push:
-    branches: [ main ]
+    branches: [ main, feature/hello-again-endpoint ]
   pull_request:
-    branches: [ main ]
+    branches: [ main, feature/hello-again-endpoint ]
 
 jobs:
   build:
@@ -22,7 +22,7 @@ jobs:
       - name: Grant execute permission for mvnw
         run: chmod +x mvnw
 
-      - name: Run tests
+      - name: Run all tests
         run: ./mvnw test
 
       - name: Build application
